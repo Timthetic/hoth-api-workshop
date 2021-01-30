@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<script>
+		const googleApiUrl = `https://language.googleapis.com/v1/documents:analyzeSentiment?key=YOUR_API_KEY`;
+		
+		async function getSentiment(text){
+			const doc = {
+				"document":{
+					"type":"PLAIN_TEXT",
+					"content": text,
+				},
+				"encodingType": "UTF8"
+			}
+			const res = await fetch(
+				googleApiUrl, 
+				{
+					method: "POST", 
+					body: new Blob([JSON.stringify(doc)]),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}
+			);
+			const json = await res.json();
+			// const json = {"documentSentiment":{"magnitude":1.9,"score":0.9},"language":"en","sentences":[
+			// 	{
+			// 		"text":{
+			// 			"content":"Inception is one of the best movies of all time.","beginOffset":0
+			// 		},
+			// 		"sentiment":{"magnitude":0.9,"score":0.9}
+			// 	},
+			// 	{"text":{"content":"I think everyone should watch it.","beginOffset":49},"sentiment":{"magnitude":0.9,"score":0.9}}]};
+			// console.log(text);
+			return json;
+		}
+		async function displaySentiment(){
+			const text = document.getElementById("main-text").value;
+			const json = await getSentiment(text);
+			const scoreElement = document.getElementById("score");
+			const magnitudeElement = document.getElementById("magnitude");
+			scoreElement.innerHTML = json.documentSentiment.score;
+			magnitudeElement.innerHTML = json.documentSentiment.magnitude;
+			const sentenceElement = document.getElementById("sentence-sentiment");
+			sentenceElement.textContent = "";
+			for(sentence of json.sentences) {
+				const newElement = document.createElement("p");
+				newElement.innerHTML = `<b>Sentence</b>: ${sentence.text.content}
+					<b>Score</b>: ${sentence.sentiment.score}
+					<b>Magnitude</b>: ${sentence.sentiment.magnitude}`;
+				sentenceElement.appendChild(newElement);
+			}
+		}
+	</script>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="input">
+		<textarea id="main-text"></textarea>
+		<button onclick="displaySentiment()">Analyze</button>
+	</div>
+	<div id="overall-sentiment">
+		<p>Score: <span id="score"></span></p>
+		<p>Magnitude: <span id="magnitude"></span></p>
+	</div>
+	<div id="sentence-sentiment">
+
+	</div>
+</body>
+</html>
