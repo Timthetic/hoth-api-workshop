@@ -170,28 +170,6 @@ Follow these steps to get set up:
 
 ⚠️ VERY SERIOUS SECURITY INFO: Your API key is a **secret**. Treat it like a password. Here are some [API key best practices](https://support.google.com/googleapi/answer/6310037?hl=en).
 
-Did it work? Try opening the JavaScript console in Chrome (Option + ⌘ + J (on macOS), or Shift + CTRL + J (on Windows/Linux)) and running the following (make sure to **replace "YOUR_API_KEY" with your actual api key**):
-```js
-let doc = {
-	"document":{
-	    "type":"PLAIN_TEXT",
-		"content": "Colossal Dreadmaw is the best card in all of MTG",
-	},
-	"encodingType": "UTF8"
-}
-let res = await fetch(
-	"https://language.googleapis.com/v1/documents:analyzeSentiment?key=YOUR_API_KEY", 
-	{
-		method: "POST", 
-		body: new Blob([JSON.stringify(doc)]),
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	}
-);
-let json = await res.json();
-```
-
 ## Using the Natural Language API
 First things first, [here are the docs](https://cloud.google.com/natural-language/docs/apis). This is a great source of information and may help fill in gaps. We will be using the [analyze sentiment endpoint](https://cloud.google.com/natural-language/docs/reference/rest/v1/documents/analyzeSentiment).
 
