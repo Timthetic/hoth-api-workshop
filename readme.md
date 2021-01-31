@@ -4,7 +4,7 @@
 
 **Teachers:** Timothy Rediehs
 
-**Slides:** TODO
+**Slides:** https://docs.google.com/presentation/d/1Fh6dLO-jxaVvAQMFmnP2M-kX2PdtlL_TMcP6DCNMIdE/edit?usp=sharing
 
 **Link to the Google Natural Language API:** https://cloud.google.com/natural-language/?hl=en_US
 
